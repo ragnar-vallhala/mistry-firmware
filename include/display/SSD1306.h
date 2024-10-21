@@ -1,5 +1,5 @@
 /*
- * File: OLED.h
+ * File: SSD1306.h
  * Author: Ashutosh Vishwakarma
  * Company: Robogen
  * Date: 20-10-2024
@@ -57,7 +57,10 @@ enum class Size {
 	W128xH64,
 	W128xH32
 };
-
+enum class Symbols
+{
+  WIFI
+};
 
 class SSD1306 {
 	protected:

@@ -1,4 +1,5 @@
 #pragma once
+
 const uint8_t font_8x5[] =
 {
 			8, 5, //height, width
@@ -98,3 +99,16 @@ const uint8_t font_8x5[] =
 			0x00, 0x41, 0x36, 0x08, 0x00,
 			0x02, 0x01, 0x02, 0x04, 0x02,
 };
+
+#define WIFI_SYMBOL 0
+#define UART_SYMBOL 1
+#define ETHERNET_SYMBOL 2
+
+const uint8_t symbol_8x5[] =
+{
+    8, 5, //height, width
+    0x04, 0x12, 0x4A, 0x12, 0x04,   // WiFi
+    0x00, 0x1E, 0x78, 0x1E, 0x00    // UART
+
+};
+
