@@ -8,6 +8,7 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(FREERTOS_SRC_DIRECTORY dependencies/FreeRTOS-Kernel)
+set(PICO_BOARD pico_w)
 # Include the Pico SDK
 include(${PICO_SDK_PATH}/external/pico_sdk_import.cmake)
 
@@ -22,6 +23,7 @@ file(GLOB SOURCES
   src/*.cpp
   src/connection/*.cpp
   src/display/*.cpp
+  src/resource/*.cpp
 )
 # Create an executable from source files
 add_executable(${project}
@@ -34,10 +36,9 @@ include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/
 )
 
-target_include_directories(Mistry PRIVATE ${FREERTOS_SRC_DIRECTORY}/include)
-target_include_directories(Mistry PRIVATE ${FREERTOS_SRC_DIRECTORY}/portable/GCC/RP2040)
 
-target_link_libraries(${project} pico_stdlib hardware_gpio hardware_i2c  FreeRTOS-Kernel-Heap4 pico_multicore )
+
+target_link_libraries(${project} pico_stdlib hardware_gpio hardware_i2c pico_cyw43_arch_lwip_threadsafe_background  FreeRTOS-Kernel-Heap4 pico_multicore )
 
 # Enable USB and UART
 pico_enable_stdio_usb(${project} 1)
@@ -45,4 +46,3 @@ pico_enable_stdio_uart(${project} 1)
 
 # Create a UF2 file for flashing the Pico
 pico_add_extra_outputs(${project})
-

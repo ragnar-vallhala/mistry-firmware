@@ -3,6 +3,8 @@
 #include <cstdint>
 #include <hardware/timer.h>
 #include <pico/stdio_usb.h>
+#include "connection/WiFiManager.h"
+
 
 namespace {
 
@@ -10,6 +12,7 @@ inline static void swap(int &a, int &b) {
   int tmp = a;
   a = b;
   b = tmp;
+
 }
 
 }; // namespace
@@ -153,8 +156,10 @@ std::string get_uptime_string() {
 }
 
 void GFX::draw_status_bar() {
+  WiFiManager* wifi = WiFiManager::get_wifi_manager();
   draw_fill_rectangle(0, 0, 128, 10, Colors::BLACK);
   if(stdio_usb_connected()) draw_symbol(118,0,1);
+  if(wifi->is_connected_wifi()) draw_symbol(108,0,0);
   draw_string(0, 0, get_uptime_string());
   draw_horizontal_line(2, 10, 126);
 }
