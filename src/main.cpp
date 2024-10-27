@@ -41,7 +41,7 @@ int main() {
   // Create FreeRTOS tasks
   TaskHandle_t handleToggleLED;
   TaskHandle_t handlePrintMessage;
-
+printf("Hello from Core %d!\n", get_core_num());
   // Create the LED toggle task pinned to Core 0
   xTaskCreate(toggleLED, "Toggle LED Task", 1024, NULL, 1, &handleToggleLED);
 
