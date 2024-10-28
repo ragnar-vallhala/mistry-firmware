@@ -10,4 +10,9 @@
 #define WIFI_PASSWORD "00000000"
 #define HOSTNAME "Mistry"
 
+// TCP
+#define TCP_SERVER_IP "10.42.0.1"
+#define TCP_PORT    4242
+
+
 
