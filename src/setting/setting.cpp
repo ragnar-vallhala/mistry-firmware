@@ -111,20 +111,20 @@ void loadcell_setting(void *param) {
     }
   }
 
-  /* // Accept numbers from keypad */
-  /* uint8_t num = get_num_pressed(disp); */
-  /* if (num == 0xff) */
-  /*   return; */
-  /* if (num >= 1 && num <= 9) { */
-  /*   input_buffer += ('0' + num); */
-  /* } else if (num == 11) { */
-  /*   input_buffer += '0'; */
-  /* } else if (num == 10) { // Let's say 10 = '.' key if you support it */
-  /*   input_buffer += '.'; */
-  /* } else if (num == 12) { // 11 = backspace */
-  /*   if (!input_buffer.empty()) */
-  /*     input_buffer.pop_back(); */
-  /* } */
+ // Accept numbers from keypad
+  uint8_t num = get_num_pressed(disp);
+  if (num == 0xff)
+    return;
+  if (num >= 1 && num <= 9) {
+    input_buffer += ('0' + num);
+  } else if (num == 11) {
+    input_buffer += '0';
+  } else if (num == 10) { // Let's say 10 = '.' key if you support it
+    input_buffer += '.';
+  } else if (num == 12) { // 11 = backspace
+    if (!input_buffer.empty())
+      input_buffer.pop_back();
+  }
 }
 void microphone_setting(void *param) {}
 void about(void *param) {}

@@ -229,7 +229,6 @@ void run_display(void *param) {
     if (dp->current_menu == NULL) {
       main_menu(param);
     } else {
-
       dp->current_menu->function(dp->current_menu->param);
     }
   }
@@ -244,11 +243,10 @@ void main_menu(void *param) {
                               "Fluid Mechanics", "Sound",    "Energy",
                               "Setting"};
 
-  static Task menus[] = {
-      {kinematics_menu, param}, {main_menu, param}, {main_menu, param},
-      {main_menu, param},       {main_menu, param}, {main_menu, param},
-      {setting_menu, param}
-  };
+  static Task menus[] = {{kinematics_menu, param}, {main_menu, param},
+                         {main_menu, param},       {main_menu, param},
+                         {main_menu, param},       {main_menu, param},
+                         {setting_menu, param}};
 
   const uint8_t menu_length = 7;
 

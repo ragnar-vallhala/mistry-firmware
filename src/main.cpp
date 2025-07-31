@@ -18,15 +18,11 @@ int main() {
   stdio_init_all(); // Initialize stdio for console output
   hndl = UIHandler::get_ui_handler();
 
-  TaskHandle_t displayHandle;
-  TaskHandle_t keypadHandle;
-
   TaskHandle_t displayHandleRun;
   TaskHandle_t keypadHandleRun;
 
   init_display(&params);
   init_keypad(&params);
-
   xTaskCreate(run_display, "Display", 4096, (void *)&params, 1,
               &displayHandleRun);
   xTaskCreate(read_keypad_states, "Keypad", 2048, (void *)&params, 2,

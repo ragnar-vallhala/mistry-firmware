@@ -20,17 +20,17 @@ void init_keypad(void *params) {
   // Serial.println("Keypad...");
   gpio_init(SIG_PIN);
   gpio_set_dir(SIG_PIN, GPIO_IN);
-  gpio_pull_up(SIG_PIN);
+  gpio_pull_down(SIG_PIN);
   // Serial.println("Keypad Failed");
 }
 
 bool isKeyPressed(uint64_t key, Display_Param *dp, uint64_t now) {
-
+  bool result = false;
   if ((now - dp->last_read) > DEBOUNCE_DELAY && dp->keypad_state == key) {
     dp->last_read = now;
-    return true;
+    result = true;
   }
-  return false;
+  return result;
 }
 
 void read_keypad_states(void *params) {
@@ -44,22 +44,19 @@ void read_keypad_states(void *params) {
       // Set selector pins
       for (uint8_t bit = 0; bit < 4; bit++) {
         gpio_put(selectorPins[bit], (channel >> bit) & 0x01);
-        // digitalWrite(selectorPins[bit], (channel >> bit) & 0x01);
       }
       vTaskDelay(pdMS_TO_TICKS(1));
-      // delayMicroseconds(5); // Settling time for MUX switching
-
-      // Read the button: LOW means pressed (if using INPUT_PULLUP)
       bool pressed = gpio_get(SIG_PIN);
-      // bool pressed = digitalRead(SIG_PIN) == HIGH;
       if (pressed) {
         keyStates |= (1 << channel);
       }
     }
     display_param->keypad_state = keyStates;
-    printf("Keystests: %d\n", keyStates);
+
+    printf("Called keypad: %d\n", display_param->keypad_state);
   }
 }
+
 uint8_t get_num_pressed(void *params) {
   Display_Param *disp = (Display_Param *)params;
   if (isKeyPressed(KEY_0, disp, millis()))

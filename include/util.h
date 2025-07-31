@@ -14,7 +14,7 @@
 struct Task;
 
 struct Display_Param {
-  uint16_t keypad_state = 0;
+  volatile uint16_t keypad_state = 0;
   uint64_t last_read = 0;
   UIHandler *display = NULL;
   Task *current_menu = NULL;

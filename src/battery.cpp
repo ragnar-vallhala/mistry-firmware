@@ -14,7 +14,6 @@ uint8_t get_battery_percentage() {
   if (!battery_init) {
     adc_init();
     adc_gpio_init(26);
-    microphone_init();
     battery_init = true;
   }
 
@@ -34,6 +33,5 @@ uint8_t get_battery_percentage() {
     percent = moded;
     lastUpdate = millis();
   }
-  printf(">dB:%f\n", read_decible());
   return percent;
 }
