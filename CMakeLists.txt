@@ -24,6 +24,11 @@ file(GLOB SOURCES
   src/connection/*.cpp
   src/display/*.cpp
   src/resource/*.cpp
+  src/keypad/*.cpp
+  src/experiments/*.cpp
+  src/experiments/kinematics/*.cpp
+  src/hx711/*.cpp
+  src/microphone/*.cpp
 )
 # Create an executable from source files
 add_executable(${project}
@@ -38,7 +43,7 @@ include_directories(
 
 
 
-target_link_libraries(${project} pico_stdlib hardware_gpio hardware_i2c pico_cyw43_arch_lwip_threadsafe_background  FreeRTOS-Kernel-Heap4 pico_multicore )
+target_link_libraries(${project} pico_stdlib hardware_gpio hardware_adc hardware_i2c pico_cyw43_arch_lwip_threadsafe_background  FreeRTOS-Kernel-Heap4 pico_multicore m)
 
 # Enable USB and UART
 pico_enable_stdio_usb(${project} 1)

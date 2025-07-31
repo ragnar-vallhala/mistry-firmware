@@ -26,12 +26,12 @@ public:
   void start();
   Display get_display() const;
   void set_display(Display newDisplay);
+  static void* gfx;
 private:
   UIHandler()=default;
   static UIHandler* handler;
   Display display = Display::SSD1306;
   uint32_t lastUpdate=0;
-  static void* gfx;
 };
 
 #endif // !UI_HANDLER_H

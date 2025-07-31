@@ -2,6 +2,7 @@
 #include "display/GFX.h"
 #include "display/SSD1306.h"
 #include <hardware/timer.h>
+#include "display/display.h"
 
 UIHandler *UIHandler::handler = nullptr;
 void *UIHandler::gfx = nullptr;
@@ -23,9 +24,6 @@ void UIHandler::start() {
   if (time_us_64() / 100000 > lastUpdate) {
     lastUpdate = time_us_64() / 100000;
     if (display == Display::SSD1306) {
-      GFX *oled = (GFX *)gfx;
-      oled->draw_status_bar();
-      oled->display();
     }
   }
 }
