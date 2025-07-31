@@ -32,5 +32,5 @@ const uint8_t selectorPins[4] = {S0_PIN, S1_PIN, S2_PIN, S3_PIN};
 void init_keypad(void *params);
 void read_keypad_states(void *params);
 bool isKeyPressed(uint64_t key, Display_Param *dp, uint64_t now);
-
+uint8_t get_num_pressed(void *params);
 #endif // !KEYPAD_H

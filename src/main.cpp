@@ -27,9 +27,9 @@ int main() {
   init_display(&params);
   init_keypad(&params);
 
-  xTaskCreate(run_display, "Display", 2048, (void *)&params, 1,
+  xTaskCreate(run_display, "Display", 4096, (void *)&params, 1,
               &displayHandleRun);
-  xTaskCreate(read_keypad_states, "Keypad", 1024, (void *)&params, 2,
+  xTaskCreate(read_keypad_states, "Keypad", 2048, (void *)&params, 2,
               &keypadHandleRun);
 
   // Create the print message task pinned to Core 1

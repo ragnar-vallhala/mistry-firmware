@@ -4,6 +4,7 @@
 #include "display/SSD1306.h"
 #include "display/UIHandler.h"
 #include "projdefs.h"
+#include "setting/setting.h"
 #include "task.h"
 #include "util.h"
 #include <cmath>
@@ -240,18 +241,13 @@ void main_menu(void *param) {
   GFX *gfx = (GFX *)dp->display->gfx;
   static int8_t menu_index = 0;
   const char *menu_items[] = {"Kinematics",      "Dynamics", "Gravity",
-                              "Fluid Mechanics", "Sound",    "Energy", "Setting"};
+                              "Fluid Mechanics", "Sound",    "Energy",
+                              "Setting"};
 
   static Task menus[] = {
       {kinematics_menu, param}, {main_menu, param}, {main_menu, param},
       {main_menu, param},       {main_menu, param}, {main_menu, param},
-      // {kinematics_menu, dp},
-      // {dynamics_menu, dp}, // You can replace this with
-      //                      // actual tasks as needed
-      // {gravity_menu, dp},
-      // {fluid_menu, dp},
-      // {sound_menu, dp},
-      // {energy_menu, dp},
+      {setting_menu, param}
   };
 
   const uint8_t menu_length = 7;

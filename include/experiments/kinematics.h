@@ -1,6 +1,5 @@
 #ifndef KINEMATICS_H
 #define KINEMATICS_H
-#include "util.h"
 #include <cstdint>
 
 #define TRIG_PIN 6

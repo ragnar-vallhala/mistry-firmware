@@ -29,12 +29,12 @@ file(GLOB SOURCES
   src/experiments/kinematics/*.cpp
   src/hx711/*.cpp
   src/microphone/*.cpp
+  src/setting/*.cpp
 )
 # Create an executable from source files
 add_executable(${project}
   ${SOURCES}  
 )
-
 
 include_directories(
     ${CMAKE_CURRENT_LIST_DIR}/include 

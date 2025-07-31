@@ -2,6 +2,8 @@
 #include "display/display.h"
 #include "projdefs.h"
 #include "util.h"
+#include <cmath>
+#include <cstdint>
 #include <hardware/gpio.h>
 #include <stdio.h>
 
@@ -55,5 +57,34 @@ void read_keypad_states(void *params) {
       }
     }
     display_param->keypad_state = keyStates;
+    printf("Keystests: %d\n", keyStates);
   }
+}
+uint8_t get_num_pressed(void *params) {
+  Display_Param *disp = (Display_Param *)params;
+  if (isKeyPressed(KEY_0, disp, millis()))
+    return 11; // physical mapping
+  else if (isKeyPressed(KEY_1, disp, millis()))
+    return 1;
+  else if (isKeyPressed(KEY_2, disp, millis()))
+    return 2;
+  else if (isKeyPressed(KEY_3, disp, millis()))
+    return 3;
+  else if (isKeyPressed(KEY_4, disp, millis()))
+    return 4;
+  else if (isKeyPressed(KEY_5, disp, millis()))
+    return 5;
+  else if (isKeyPressed(KEY_6, disp, millis()))
+    return 6;
+  else if (isKeyPressed(KEY_7, disp, millis()))
+    return 7;
+  else if (isKeyPressed(KEY_8, disp, millis()))
+    return 8;
+  else if (isKeyPressed(KEY_9, disp, millis()))
+    return 9;
+  else if (isKeyPressed(KEY_DOT, disp, millis()))
+    return 10;
+  else if (isKeyPressed(KEY_BACKSPACE, disp, millis()))
+    return 12;
+  return 0xff;
 }
