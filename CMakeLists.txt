@@ -27,6 +27,8 @@ file(GLOB SOURCES
   src/keypad/*.cpp
   src/experiments/*.cpp
   src/experiments/kinematics/*.cpp
+  src/experiments/dynamics/*.cpp
+  src/experiments/gravity/*.cpp
   src/hx711/*.cpp
   src/microphone/*.cpp
   src/setting/*.cpp

@@ -84,9 +84,6 @@ void loadcell_setting(void *param) {
     gfx->draw_string(0, 34, "Input: " + input_buffer, Colors::WHITE);
   }
 
-  gfx->draw_string(0, 46, "LEFT: Back | RIGHT: Save", Colors::WHITE);
-  gfx->draw_string(0, 56, "UP/DOWN: Select", Colors::WHITE);
-
   gfx->display();
 
   // Handle navigation
@@ -111,7 +108,7 @@ void loadcell_setting(void *param) {
     }
   }
 
- // Accept numbers from keypad
+  // Accept numbers from keypad
   uint8_t num = get_num_pressed(disp);
   if (num == 0xff)
     return;

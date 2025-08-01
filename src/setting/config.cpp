@@ -35,5 +35,11 @@ Setting_Config load_config(bool force_read) {
   read_once = true;
   const uint8_t *flash_data = (const uint8_t *)(XIP_BASE + FLASH_TARGET_OFFSET);
   memcpy(&settings_config, flash_data, sizeof(Setting_Config));
+  if (settings_config.magic_number != MAGIC_NUMBER) {
+    settings_config.loadcell_scale = 1.0;
+    settings_config.loadcell_offset = 0.0;
+    settings_config.microphone_scale = 1.0;
+    settings_config.microphone_offset = 0.0;
+  }
   return settings_config;
 }

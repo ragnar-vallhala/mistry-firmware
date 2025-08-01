@@ -1,9 +1,12 @@
 #ifndef SETTING_CONFIG_H
 #define SETTING_CONFIG_H
-#include <stdbool.h>
 #include <cstring>
+#include <stdbool.h>
+
+#define MAGIC_NUMBER 0x2808
 
 typedef struct Setting_Config {
+  int magic_number;
   float loadcell_scale;
   float loadcell_offset;
   float microphone_scale;
