@@ -22,7 +22,7 @@ uint8_t get_battery_percentage() {
   raw = 4.0 * raw * 3.3f / 4095;
   raw -= 5.0;
 
-  float val = raw / 3.3 * 100.0;
+  float val = raw / 3.4 * 100.0;
   if (percent == -1 || millis() - lastUpdate > 3000 || val > 100) {
 
     percent = val;

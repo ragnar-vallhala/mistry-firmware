@@ -1,8 +1,8 @@
 #include "display/UIHandler.h"
 #include "display/GFX.h"
 #include "display/SSD1306.h"
-#include <hardware/timer.h>
 #include "display/display.h"
+#include <hardware/timer.h>
 
 UIHandler *UIHandler::handler = nullptr;
 void *UIHandler::gfx = nullptr;

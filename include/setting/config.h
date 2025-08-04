@@ -13,6 +13,6 @@ typedef struct Setting_Config {
   float microphone_offset;
 } Setting_Config;
 
-void save_config(const Setting_Config &cfg);
+void save_config(const Setting_Config &cfg, void* dispConfig);
 Setting_Config load_config(bool force_read = false);
 #endif // !SETTING_CONFIG_H

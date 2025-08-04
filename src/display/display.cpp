@@ -4,8 +4,10 @@
 #include "display/SSD1306.h"
 #include "display/UIHandler.h"
 #include "experiments/dynamics.h"
+#include "experiments/energy.h"
 #include "experiments/fluid.h"
 #include "experiments/gravity.h"
+#include "experiments/sound.h"
 #include "projdefs.h"
 #include "setting/setting.h"
 #include "task.h"
@@ -248,7 +250,7 @@ void main_menu(void *param) {
 
   static Task menus[] = {{kinematics_menu, param}, {dynamics_menu, param},
                          {gravity_menu, param},    {fluid_menu, param},
-                         {main_menu, param},       {main_menu, param},
+                         {sound_menu, param},      {energy_menu, param},
                          {setting_menu, param}};
 
   const uint8_t menu_length = 7;

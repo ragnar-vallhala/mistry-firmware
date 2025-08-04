@@ -1,6 +1,7 @@
 #include "setting/setting.h"
 #include "display/GFX.h"
 #include "keypad/keypad.h"
+#include "projdefs.h"
 #include "setting/config.h"
 #include "util.h"
 #include <cstdint>
@@ -16,8 +17,8 @@ void setting_menu(void *param) {
   const char *setting_item[] = {"Loadcell", "Microphone", "About"};
   static Task menus[] = {
       {loadcell_setting, disp},
-      {setting_menu, disp},
-      {setting_menu, disp},
+      {microphone_setting, disp},
+      {about, disp},
   };
 
   const uint8_t setting_length = 3;
@@ -62,9 +63,12 @@ void loadcell_setting(void *param) {
   GFX *gfx = (GFX *)disp->display->gfx;
   static int selected_field = 0; // 0 = scale, 1 = offset
   static std::string input_buffer = "";
-
-  static Setting_Config cfg = load_config();
-
+  static bool initialized = false;
+  static Setting_Config cfg;
+  if (!initialized) {
+    cfg = load_config();
+    initialized = true;
+  }
   gfx->clear();
   draw_status_bar(gfx, "Loadcell");
 
@@ -92,7 +96,8 @@ void loadcell_setting(void *param) {
   } else if (isKeyPressed(KEY_DOWN, disp, millis())) {
     selected_field = (selected_field == 1) ? 0 : 1;
   } else if (isKeyPressed(KEY_LEFT, disp, millis())) {
-    disp->current_menu = NULL;
+    static Task menu[] = {{setting_menu, param}};
+    disp->current_menu = menu;
     input_buffer.clear();
   } else if (isKeyPressed(KEY_RIGHT, disp, millis())) {
     // Save current buffer if any
@@ -102,8 +107,9 @@ void loadcell_setting(void *param) {
         cfg.loadcell_scale = val;
       else
         cfg.loadcell_offset = val;
-
-      save_config(cfg);
+      cfg.magic_number = MAGIC_NUMBER;
+      save_config(cfg, param);
+      vTaskDelay(pdTICKS_TO_MS(500)); // let config be saved
       input_buffer.clear();
     }
   }
@@ -116,12 +122,102 @@ void loadcell_setting(void *param) {
     input_buffer += ('0' + num);
   } else if (num == 11) {
     input_buffer += '0';
-  } else if (num == 10) { // Let's say 10 = '.' key if you support it
+  } else if (num == 10) { // . key
     input_buffer += '.';
   } else if (num == 12) { // 11 = backspace
     if (!input_buffer.empty())
       input_buffer.pop_back();
   }
 }
-void microphone_setting(void *param) {}
-void about(void *param) {}
+void microphone_setting(void *param) {
+
+  Display_Param *disp = (Display_Param *)param;
+  GFX *gfx = (GFX *)disp->display->gfx;
+  static int selected_field = 0; // 0 = scale, 1 = offset
+  static std::string input_buffer = "";
+  static bool initialized = false;
+  static Setting_Config cfg;
+  if (!initialized) {
+    cfg = load_config();
+    initialized = true;
+  }
+  gfx->clear();
+  draw_status_bar(gfx, "Microphone");
+
+  // Display current values
+  gfx->draw_string(0, 12,
+                   std::string((selected_field == 0) ? "> " : " ") +
+                       "Scale: " + std::to_string(cfg.microphone_scale),
+                   Colors::WHITE);
+
+  gfx->draw_string(0, 22,
+                   std::string((selected_field == 1) ? "> " : " ") +
+                       "Offset: " + std::to_string(cfg.microphone_offset),
+                   Colors::WHITE);
+
+  // Show number being typed (if any)
+  if (!input_buffer.empty()) {
+    gfx->draw_string(0, 34, "Input: " + input_buffer, Colors::WHITE);
+  }
+
+  gfx->display();
+
+  // Handle navigation
+  if (isKeyPressed(KEY_UP, disp, millis())) {
+    selected_field = (selected_field == 0) ? 1 : 0;
+  } else if (isKeyPressed(KEY_DOWN, disp, millis())) {
+    selected_field = (selected_field == 1) ? 0 : 1;
+  } else if (isKeyPressed(KEY_LEFT, disp, millis())) {
+    static Task menu[] = {{setting_menu, param}};
+    disp->current_menu = menu;
+    input_buffer.clear();
+  } else if (isKeyPressed(KEY_RIGHT, disp, millis())) {
+    // Save current buffer if any
+    if (!input_buffer.empty()) {
+      float val = std::stof(input_buffer);
+      if (selected_field == 0)
+        cfg.microphone_scale = val;
+      else
+        cfg.microphone_offset = val;
+      cfg.magic_number = MAGIC_NUMBER;
+      save_config(cfg, param);
+      vTaskDelay(pdTICKS_TO_MS(500)); // let config be saved
+      input_buffer.clear();
+    }
+  }
+
+  // Accept numbers from keypad
+  uint8_t num = get_num_pressed(disp);
+  if (num == 0xff)
+    return;
+  if (num >= 1 && num <= 9) {
+    input_buffer += ('0' + num);
+  } else if (num == 11) {
+    input_buffer += '0';
+  } else if (num == 10) { // . key
+    input_buffer += '.';
+  } else if (num == 12) { // 11 = backspace
+    if (!input_buffer.empty())
+      input_buffer.pop_back();
+  }
+}
+void about(void *param) {
+  Display_Param *disp = (Display_Param *)param;
+  GFX *gfx = (GFX *)disp->display->gfx;
+  gfx->clear();
+  draw_status_bar(gfx, "About");
+
+  // Display current values
+  gfx->draw_string(0, 12, "Developed by", Colors::WHITE);
+  gfx->draw_string(0, 22, "NAVROBOTEC", Colors::WHITE);
+  gfx->draw_string(0, 32, "PVT. LTD.", Colors::WHITE);
+
+  gfx->draw_string(0, 42, "For educational", Colors::WHITE);
+  gfx->draw_string(0, 52, "purposes only", Colors::WHITE);
+
+  gfx->display();
+  if (isKeyPressed(KEY_LEFT, disp, millis())) {
+    static Task menu[] = {{setting_menu, param}};
+    disp->current_menu = menu;
+  }
+}
